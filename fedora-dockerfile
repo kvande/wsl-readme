@@ -1,0 +1,38 @@
+FROM fedora:34
+
+ARG USER
+ARG PASSWORD  
+
+RUN yum update -y \
+    && yum install -y sudo git git-lfs tree nano wget iproute e2fsprogs daemonize dbus-daemon fontconfig procps util-linux
+
+# add user
+RUN /bin/bash -c 'useradd -m -s /bin/bash -g root ${USER}; echo "${USER}:${PASSWORD}" | chpasswd'
+RUN /bin/bash -c 'usermod -a -G wheel ${USER}'
+
+COPY ./.bashrc  /home/${USER}/
+
+#add wsl settings to change mount point and default user
+COPY ./wsl.conf /etc/wsl.conf
+RUN /bin/bash -c 'echo "default=${USER}" >> /etc/wsl.conf; \
+    echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers;'
+
+
+# use this to later fix network issues for wsl with vpn (https://github.com/MicrosoftDocs/WSL/pull/1046)
+COPY ./wsl-network-fixup.sh ./usr/${USER}/wsl-network-fix/
+
+# fix init (default in wsl) to systemd 
+COPY ./systemd/start-systemd-namespace /usr/sbin/
+COPY ./systemd/enter-systemd-namespace-fedora /usr/sbin/
+
+RUN mv /usr/sbin/enter-systemd-namespace-fedora /usr/sbin/enter-systemd-namespace
+RUN sudo chmod +x /usr/sbin/enter-systemd-namespace
+
+# fix line endings from Windows
+RUN sed -i 's/\r$//' /home/${USER}/.bashrc  
+RUN sed -i 's/\r$//' /usr/sbin/start-systemd-namespace
+RUN sed -i 's/\r$//' /usr/sbin/enter-systemd-namespace
+
+USER ${USER}
+WORKDIR /usr/${USER}
+
