@@ -54,7 +54,9 @@ After this step is performed, systemd is used instead of init, so no connection 
 ```sudo sed -i 2a"# Start or enter a PID namespace in WSL2\nsource /usr/sbin/start-systemd-namespace\n" /etc/bash.bashrc```
 
 
-Then exit the WSL session, no need to stop it, and log back in. Wsl should now use systemd instead of init.
+Then `exit` the WSL session, no need to stop it, and log back in. Wsl should now use systemd instead of init.
+
+Run this command `ps -ef` to check that PID=1 now is in fact systemd.
 
 
 Task for fixing networking issues, if any (does not work after Post task 2, have to run it from Windows?? if so have to rewrite it somehow)   

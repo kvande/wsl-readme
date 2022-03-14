@@ -8,7 +8,7 @@ ENV TZ=Europe/Oslo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt update -y \
-    && apt install -yqq sudo git git-lfs tree nano wget curl iproute2 daemonize dbus-user-session fontconfig
+    && apt install -yqq sudo git git-lfs tree nano wget curl iproute2 daemonize dbus-user-session fontconfig gnupg2
 
 # add user
 RUN /bin/bash -c 'useradd -m -s /bin/bash -g root ${USER}; echo "${USER}:${PASSWORD}" | chpasswd'
