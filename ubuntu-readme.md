@@ -9,7 +9,8 @@ and wsl2 network issue fix from  [here](https://github.com/MicrosoftDocs/WSL/pul
 
 ## Prerequisite
 In order to get wsl networking to work, run this command in Powershell as Admin, see [this link](https://github.com/MicrosoftDocs/WSL/pull/1046):  
-```New-NetNat -Name "WSLNat" -InternalIPInterfaceAddressPrefix 100.109.0.0/24```
+```New-NetNat -Name "WSLNat" -InternalIPInterfaceAddressPrefix 100.109.0.0/24```  
+Then, a pc restart seems to be required.
 
 
 ## For the Ubuntu Docker file:
