@@ -36,7 +36,7 @@ RUN sudo chmod +x /usr/sbin/enter-systemd-namespace
 RUN sed -i 's/\r$//' /home/${USER}/.bashrc  
 RUN sed -i 's/\r$//' /usr/sbin/start-systemd-namespace
 RUN sed -i 's/\r$//' /usr/sbin/enter-systemd-namespace
-RUN sed -i 's/\r$//' /usr/${USER}/wsl-network-fix/
+RUN sed -i 's/\r$//' /usr/${USER}/wsl-network-fix/wsl-network-fixup.sh
 
 USER ${USER}
 WORKDIR /usr/${USER}
